@@ -340,11 +340,10 @@ bool deleteAVL(TREENODE** root, int deleteKey){
     }
     else{
         // 차수가 2인 경우..
-        TREENODE* temp = p; 
-        // p를 temp에 저장해둠 ..
+        TREENODE* temp = p; // p를 temp에 저장해둠 ..
         stack.push(p);
 
-        if((p->left->height < p->right->height) || ((p->left->height == p->right->height) && (p->left->size < p->right->size))){
+        if((p->left->height < p->right->height) || ((p->left->height == p->right->height) && p->left->size < p->right->size)){
             p = p->right; // p의 오른쪽에서 가장 작은 노드를 찾음.
 
             // minNode();
@@ -369,6 +368,7 @@ bool deleteAVL(TREENODE** root, int deleteKey){
         }
         else{
             // 높이가 왼쪽이 높거나, 높이는 같은데 사이즈가 왼쪽이 커서 삭제하는 경우
+            // or 오른쪽 왼쪽 모두 높이와 사이즈가 똑같은 경우
             p = p->left;
             // p의 왼쪽 트리에서 키값이 가장 큰 노드를 찾는다.
             // maxNode();
