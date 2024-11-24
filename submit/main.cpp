@@ -58,7 +58,6 @@ int size(TREENODE* p){
     return size(p->left)+size(p->right)+1;
 }
 
-// rotate 한다음에 height 재조정 해줘야함 ..
 TREENODE* rotateLL(TREENODE* parent){
     TREENODE* a = parent;
     TREENODE* b = parent->left;
@@ -67,7 +66,6 @@ TREENODE* rotateLL(TREENODE* parent){
 
     a->bf = 0;
     b->bf = 0;
-    b->height = height(b);
     return b; // 루트 노드를 반환해서 이어줌 .
 }
 
@@ -79,7 +77,6 @@ TREENODE* rotateRR(TREENODE* p){
 
     a->bf=0;
     b->bf=0;
-    b->height = height(b);
     return b;
 }
 
@@ -100,7 +97,6 @@ TREENODE* rotateLR(TREENODE* p){
     c->bf = 0;
     b = c;
 
-    b->height = height(b);
     return b;
 }
 
@@ -121,7 +117,6 @@ TREENODE* rotateRL(TREENODE* p){
     c->bf = 0; // c의 bf는 0 .. 
     b = c;
 
-    b->height = height(b);
     return b;
 }
 
@@ -353,7 +348,7 @@ bool deleteAVL(TREENODE** root, int deleteKey){
         p->right->height = height(p->right);
         p->left->size = size(p->left);
         p->right->size = size(p->right);
-        
+
         // rotate하고 height랑 size를 조정하지 않기 때문에 여기서 갱신해줘야함.
         if((p->left->height < p->right->height) || ((p->left->height == p->right->height) && (p->left->size < p->right->size))){
             p = p->right; // p의 오른쪽에서 가장 작은 노드를 찾음.
