@@ -363,11 +363,11 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             q = stack.top(); // q는 후계자 노드의 부모
 
             // 후계자의 부모와 후계자의 자식을 이어준다.
-            if(q->left == p){
-                q->left = p->left;
+            if(q->right == p){
+                q->right = p->right;
             }
             else{
-                q->right = p->left;
+                q->left = p->right;
             }
 
             temp->key = p->key;
