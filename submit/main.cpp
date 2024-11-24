@@ -8,7 +8,7 @@ using namespace std;
 // MAX 정의
 #define MAX(a,b)    ((a>b) ? (a):(b))
 
-// 올려주신 수도코드를 기반으로 코드를 짰습니다.
+// 올려주신 수도코드를 기반으로 코드를 작성하였습니다.
 
 typedef int element;
 
