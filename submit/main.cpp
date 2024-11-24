@@ -317,8 +317,6 @@ bool deleteAVL(TREENODE** root, int deleteKey){
                 q->right = NULL;
             }
         }
-        delete p;
-        p = nullptr;
     }
     // 차수가 1인 경우.
     else if(p->left == NULL || p->right == NULL){
@@ -342,12 +340,10 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             // 부모가 없는 경우 p의 자식인 child가 루트노드가 된다.
             *root = child;
         }
-        delete p;
-        p = nullptr;
     }
     else{
         // 차수가 2인 경우..
-        TREENODE* temp = p; // p를 temp에 저장해둠 ..
+        TREENODE* temp = p; // p는 삭제될 노드 .
         stack.push(p);
         p->left->height = height(p->left);
         p->right->height = height(p->right);
@@ -367,16 +363,14 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             q = stack.top(); // q는 후계자 노드의 부모
 
             // 후계자의 부모와 후계자의 자식을 이어준다.
-            if(q->right == p){
-                // 오른쪽 트리의 루트노드가 키가 가장 작은 노드인 경우
-                q->right = p->right;
+            if(q->left == p){
+                q->left = p->left;
             }
             else{
-                q->left = p->right;
+                q->right = p->left;
             }
 
             temp->key = p->key;
-            temp = p; // 메모리 해제를 위해 temp가 후계자 노드를 가리키게함.
         }
         else{
             // 높이가 왼쪽이 높거나, 높이는 같은데 사이즈가 왼쪽이 커서 삭제하는 경우
@@ -390,8 +384,8 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             }
 
             q = stack.top(); // q는 후계자의 부모 노드를 가리킴.
-
             // 삭제할 노드의 부모와 삭제할 노드의 자식을 이어준다.
+            
             if(q->left == p){
                 q->left = p->left;
             }
@@ -400,13 +394,12 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             }
 
             // 노드 삭제.
-            temp->key = p->key;
-            temp = p;
+            temp->key = p->key; 
         }
-        // temp에 저장해뒀던 삭제할 노드를 delete함.
-        delete temp;
-        temp = nullptr;
     }
+
+    delete p;
+    p = nullptr;
 
     while(!stack.empty()){
         q = stack.top(); stack.pop();
