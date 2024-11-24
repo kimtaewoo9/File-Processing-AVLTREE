@@ -43,6 +43,14 @@ void clearTree(TREENODE* node);
 
 int height(TREENODE* p);
 int size(TREENODE* p);
+int bf(TREENODE* p);
+
+int bf(TREENODE* p){
+    if(p == NULL){
+        return 0;
+    }
+    return height(p->left)-height(p->right);
+}
 
 int height(TREENODE* p){
     int h = 0; // height 구하기
@@ -187,7 +195,7 @@ bool insertAVL(TREENODE** root, element newKey){
 
         // 1. height함수를 이용해서 q->left와 q->right의 높이를 구한다.
         // q->left와 q->right의 높이를 이용해서 q->bf를 구한다.
-        q->bf = (q->left ? height(q->left): 0) - (q->right ? height(q->right) : 0);
+        q->bf = bf(q);
         // 큐에서 빼면서 .. 균형인수 초기화해줌.
         if(1 < q->bf || q->bf < -1){
             if(x == NULL){
@@ -208,7 +216,9 @@ bool insertAVL(TREENODE** root, element newKey){
     
     // f -> 불균형 노드의 부모 !.
     // f가 NULL 인 경우와 f가 있는 경우로 나누어야함.
+    x->bf = bf(x);
     if(1 < x->bf){
+        x->left->bf = bf(x->left);
         if(0 < x->left->bf){
             if(f == NULL){
                 // f가 NULL인 경우 .. 균형을 맞추고 반환되는 노드가 루트노드임
@@ -243,6 +253,7 @@ bool insertAVL(TREENODE** root, element newKey){
         }
     }
     else if(x->bf < -1){
+        x->right->bf = bf(x->right);
         if(x->right->bf < 0){
             if(f == NULL){
                 // f가 NULL인 경우 .. 균형을 맞추고 반환되는 노드가 루트노드임
@@ -418,7 +429,7 @@ bool deleteAVL(TREENODE** root, int deleteKey){
         q->size -= 1;
         // size 함수를 따로 만들지 않고 스택에 넣어두었던 조상 노드들을 pop할때 size -= 1을 해주었습니다.
         
-        q->bf = (q->left ? height(q->left): 0) - (q->right ? height(q->right) : 0);
+        q->bf = bf(q);
 
         if(q->bf < -1 || 1 < q->bf){
             x = q;
@@ -429,7 +440,9 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             }
             
             // f가 NULL인 경우가 있을 수 있음. (삭제되는 노드가 부모가 없는 경우)
+            x->bf = bf(x);
             if(1 < x->bf){
+                x->left->bf = bf(x->left);
                 if(0 < x->left->bf){
                     if(f == NULL){
                         *root = rotateLL(x);
@@ -458,6 +471,7 @@ bool deleteAVL(TREENODE** root, int deleteKey){
                 }
             }
             else if(x->bf < -1){
+                x->right->bf = bf(x->right);
                 if(x->right->bf < 0){
                     if(f == NULL){
                         *root = rotateRR(x);
