@@ -317,6 +317,9 @@ bool deleteAVL(TREENODE** root, int deleteKey){
                 q->right = NULL;
             }
         }
+
+        delete p;
+        p = nullptr;
     }
     // 차수가 1인 경우.
     else if(p->left == NULL || p->right == NULL){
@@ -340,6 +343,8 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             // 부모가 없는 경우 p의 자식인 child가 루트노드가 된다.
             *root = child;
         }
+        delete p;
+        p = nullptr;
     }
     else{
         // 차수가 2인 경우..
@@ -371,6 +376,10 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             }
 
             temp->key = p->key;
+            temp = p;
+            
+            delete temp;
+            temp = nullptr;
         }
         else{
             // 높이가 왼쪽이 높거나, 높이는 같은데 사이즈가 왼쪽이 커서 삭제하는 경우
@@ -394,12 +403,13 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             }
 
             // 노드 삭제.
-            temp->key = p->key; 
+            temp->key = p->key;
+            temp = p;
+
+            delete temp;
+            temp = nullptr;
         }
     }
-
-    delete p;
-    p = nullptr;
 
     while(!stack.empty()){
         q = stack.top(); stack.pop();
