@@ -9,8 +9,7 @@ using namespace std;
 #define MAX(a,b)    ((a>b) ? (a):(b))
 
 // 올려주신 수도코드를 기반으로 코드를 짰습니다.
-// 수도코드에서는 한번만 불균형을 해소하기 때문에, 두번의 rebalacing이 필요한 케이스에 대해 KO가 나옵니다.
-//
+// 수도코드에서는 불균형을 한번만 해소하기 때문에, 두번의 rebalacing이 필요한 케이스에 대해 KO가 나옵니다.
 
 typedef int element;
 
@@ -143,6 +142,10 @@ TREENODE* getNodeAVL(){
 
     return newNode;
 }
+
+// rotate함수를 구현할때 매개변수로 "불균형이 발생한 노드"를 주고,
+// rotate후 루트노드를 반환하게 하였습니다.
+// 그리고 rotate후 루트노드를 "불균형이 발생한 노드"의 부모와 이어주었습니다.
 
 bool insertAVL(TREENODE** root, element newKey){
     TREENODE* p = *root;
