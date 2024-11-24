@@ -399,6 +399,8 @@ bool deleteAVL(TREENODE** root, int deleteKey){
             temp = p;
         }
 
+        delete temp;
+        temp = nullptr;
         // temp에 저장해뒀던 삭제할 노드를 delete함.
     }
 
