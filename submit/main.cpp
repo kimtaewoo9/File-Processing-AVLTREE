@@ -42,6 +42,7 @@ void clearTree(TREENODE* node);
 // void rotateTree(TREENODE** root, string rotateType, TREENODE* p, TREENODE* q);
 
 int height(TREENODE* p);
+int size(TREENODE* p);
 
 int height(TREENODE* p){
     int h = 0; // height 구하기
@@ -49,6 +50,12 @@ int height(TREENODE* p){
         h = max(height(p->left),height(p->right))+1;
     }
     return h;
+}
+
+int size(TREENODE* p){
+    if(p == NULL) return 0;
+
+    return size(p->left)+size(p->right)+1;
 }
 
 // rotate 한다음에 height 재조정 해줘야함 ..
@@ -342,8 +349,13 @@ bool deleteAVL(TREENODE** root, int deleteKey){
         // 차수가 2인 경우..
         TREENODE* temp = p; // p를 temp에 저장해둠 ..
         stack.push(p);
-
-        if((p->left->height < p->right->height) || ((p->left->height == p->right->height) && p->left->size < p->right->size)){
+        p->left->height = height(p->left);
+        p->right->height = height(p->right);
+        p->left->size = size(p->left);
+        p->right->size = size(p->right);
+        
+        // rotate하고 height랑 size를 조정하지 않기 때문에 여기서 갱신해줘야함.
+        if((p->left->height < p->right->height) || ((p->left->height == p->right->height) && (p->left->size < p->right->size))){
             p = p->right; // p의 오른쪽에서 가장 작은 노드를 찾음.
 
             // minNode();
