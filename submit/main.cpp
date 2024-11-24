@@ -8,7 +8,9 @@ using namespace std;
 // MAX 정의
 #define MAX(a,b)    ((a>b) ? (a):(b))
 
-// 올려주신 수도코드를 기반으로 코드를 작성하였습니다.
+// 올려주신 수도코드를 기반으로 코드를 짰습니다.
+// 수도코드에서는 한번만 불균형을 해소하기 때문에, 두번의 rebalacing이 필요한 케이스에 대해 KO가 나옵니다.
+//
 
 typedef int element;
 
@@ -72,8 +74,10 @@ TREENODE* rotateLL(TREENODE* parent){
     a->left = b->right;
     b->right = a;
 
-    a->bf = 0;
-    b->bf = 0;
+    // a->bf = 0;
+    // b->bf = 0;
+    a->bf = bf(a);
+    b->bf = bf(b);
     return b; // 루트 노드를 반환해서 이어줌 .
 }
 
@@ -83,8 +87,8 @@ TREENODE* rotateRR(TREENODE* p){
     a->right = b->left;
     b->left = a;
 
-    a->bf=0;
-    b->bf=0;
+    a->bf = bf(a);
+    b->bf = bf(b);
     return b;
 }
 
@@ -424,10 +428,8 @@ bool deleteAVL(TREENODE** root, int deleteKey){
 
     while(!stack.empty()){
         q = stack.top(); stack.pop();
-        // q->left, q->right가 NULL인 경우 예외처리
-        q->height = 1 + max(q->left ? q->left->height : 0, q->right ? q->right->height : 0); 
-        q->size -= 1;
-        // size 함수를 따로 만들지 않고 스택에 넣어두었던 조상 노드들을 pop할때 size -= 1을 해주었습니다.
+        q->height = height(q);
+        q->size = size(q);
         
         q->bf = bf(q);
 
